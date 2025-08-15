@@ -1,0 +1,8 @@
+# 忽略指定文件夹
+Bagel/
+flash-attention/
+
+# 忽略指定文件
+log.md
+OPTIMIZATION SUMMARY.md
+README.md
