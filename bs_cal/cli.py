@@ -7,12 +7,10 @@ import argparse
 import os
 import sys
 import logging
-import torch
 from pathlib import Path
 from typing import Optional
 
 from .calculator import BagelSimilarityCalculator
-from .parallel_calculator import ParallelBagelCalculator
 from .config import BagelSimilarityConfig, create_config_from_env
 from .utils import (
     create_output_directory, save_results, save_batch_summary,
@@ -44,27 +42,14 @@ Examples:
     )
     
     # 基本参数
-    parser.add_argument('--mode', choices=['single', 'batch', 'parallel'], default='single',
-                       help='运行模式: single(单张图像), batch(批量测试), 或 parallel(并行处理)')
+    parser.add_argument('--mode', choices=['single', 'batch'], default='single',
+                       help='运行模式: single(单张图像) 或 batch(批量测试)')
     
     # 模型配置
     parser.add_argument('--model-path', type=str, 
                        help='BAGEL模型路径 (也可通过环境变量BAGEL_MODEL_PATH设置)')
     parser.add_argument('--gpu-memory', type=str, default='40GiB',
                        help='每个GPU的最大内存使用量 (默认: 40GiB)')
-    parser.add_argument('--dtype', type=str, default='bfloat16',
-                       help='模型数据类型 (默认: bfloat16)')
-    parser.add_argument('--output-dir', type=str,
-                       help='输出目录前缀')
-    parser.add_argument('--config-file', type=str,
-                       help='配置文件路径')
-    parser.add_argument('--log-level', type=str, default='INFO',
-                       choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
-                       help='日志级别 (默认: INFO)')
-    parser.add_argument('--log-file', type=str,
-                       help='日志文件路径')
-    parser.add_argument('--dry-run', action='store_true',
-                       help='验证配置但不运行计算')
     
     # 数据配置
     parser.add_argument('--image', type=str,
@@ -73,8 +58,6 @@ Examples:
                        help='图像数据目录 (默认: data_1000)')
     parser.add_argument('--batch-size', type=int, default=3,
                        help='批量测试的图像数量 (默认: 3)')
-    parser.add_argument('--checkpoint-interval', type=int, default=100,
-                       help='并行模式下每N张图像保存一次检查点 (默认: 100)')
     
     # 计算配置
     parser.add_argument('--prompt', type=str, 
@@ -258,124 +241,6 @@ def run_batch_mode(args: argparse.Namespace, config: BagelSimilarityConfig):
         raise
 
 
-def run_parallel_mode(args: argparse.Namespace, config: BagelSimilarityConfig):
-    """运行并行处理模式"""
-    # 获取图像文件列表
-    try:
-        image_files = get_image_files(config.data.data_dir, config.data.supported_formats)
-        if not image_files:
-            raise ValueError(f"No supported images found in {config.data.data_dir}")
-        
-        # 限制批量大小
-        if args.batch_size and args.batch_size > 0:
-            image_files = image_files[:args.batch_size]
-        
-        logger.info(f"Found {len(image_files)} images for parallel processing")
-        
-    except Exception as e:
-        logger.error(f"Error getting image files: {e}")
-        raise
-    
-    # 创建输出目录
-    try:
-        output_dir_prefix = getattr(config.output, 'output_dir_prefix', 'bs_cal/bagel_results')
-        output_dir = create_output_directory(output_dir_prefix)
-        logger.info(f"Results will be saved to: {output_dir}")
-        
-        # 初始化并行计算器
-        logger.info("Initializing parallel BAGEL similarity calculator...")
-        parallel_calculator = ParallelBagelCalculator(config)
-        
-        # 并行计算
-        logger.info(f"Starting parallel processing of {len(image_files)} images...")
-        logger.info(f"Checkpoint interval: every {args.checkpoint_interval} images")
-        logger.info(f"Available GPUs: {torch.cuda.device_count()}")
-        
-        results = parallel_calculator.process_batch_parallel(
-            image_files, 
-            args.prompt,
-            checkpoint_interval=args.checkpoint_interval
-        )
-        
-        # 保存结果
-        for i, result in enumerate(results):
-            if 'image_path' in result:
-                image_name = Path(result['image_path']).stem
-                save_results(result, output_dir, f"{i+1:04d}_{image_name}", config)
-        
-        # 保存批量摘要
-        save_batch_summary(results, output_dir, config)
-        
-        # 导出CSV和JSON格式的结果
-        export_paths = export_batch_results(results, output_dir)
-        
-        # 打印结果摘要
-        print_batch_summary(results)
-        print(f"Results saved to: {output_dir}")
-        
-        if export_paths:
-            print(f"\n📈 Analysis files:")
-            if 'csv' in export_paths:
-                print(f"  📊 CSV (Excel): {export_paths['csv']}")
-            if 'json' in export_paths:
-                print(f"  📋 JSON (Programming): {export_paths['json']}")
-        
-        # GPU performance summary
-        successful_results = [r for r in results if 'error' not in r]
-        if successful_results:
-            gpu_stats = {}
-            for result in successful_results:
-                gpu_id = result.get('gpu_id', 'unknown')
-                if gpu_id not in gpu_stats:
-                    gpu_stats[gpu_id] = []
-                gpu_stats[gpu_id].append(result.get('calculation_time', 0))
-            
-            print(f"\n🚀 GPU Performance Summary:")
-            for gpu_id, times in gpu_stats.items():
-                avg_time = sum(times) / len(times)
-                print(f"  GPU {gpu_id}: {len(times)} images, avg {avg_time:.2f}s/image")
-        
-        return results
-        
-    except Exception as e:
-        logger.error(f"Error during parallel processing: {e}")
-        raise
-
-
-def load_config_from_file(config_file: str) -> BagelSimilarityConfig:
-    """从文件加载配置"""
-    return BagelSimilarityConfig.load_from_file(config_file)
-
-
-def update_config_from_args(config: BagelSimilarityConfig, args: argparse.Namespace) -> BagelSimilarityConfig:
-    """从命令行参数更新配置"""
-    # 模型配置
-    if args.model_path:
-        config.model.model_path = args.model_path
-    if args.gpu_memory:
-        config.model.max_mem_per_gpu = args.gpu_memory
-    if args.dtype:
-        config.model.dtype = args.dtype
-    
-    # 数据配置
-    if args.data_dir:
-        config.data.data_dir = args.data_dir
-    
-    # 计算配置
-    if args.prompt:
-        config.calculation.default_prompt = args.prompt
-    
-    # 输出配置
-    if args.output_dir:
-        config.output.output_dir_prefix = args.output_dir
-    
-    # 测试配置
-    if args.batch_size:
-        config.test.batch_size = args.batch_size
-    
-    return config
-
-
 def main():
     """主函数"""
     parser = create_parser()
@@ -417,10 +282,8 @@ def main():
         # 根据模式运行
         if args.mode == 'single':
             run_single_image_mode(args, config)
-        elif args.mode == 'batch':
+        else:  # batch mode
             run_batch_mode(args, config)
-        else:  # parallel mode
-            run_parallel_mode(args, config)
             
     except KeyboardInterrupt:
         logger.info("User interrupted execution")

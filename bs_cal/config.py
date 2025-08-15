@@ -5,9 +5,9 @@ BAGEL相似性计算器配置管理
 
 import os
 import json
-import logging
 from dataclasses import dataclass, field, asdict
 from typing import List, Optional, Dict, Any
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -108,24 +108,6 @@ class BagelSimilarityConfig:
     def to_dict(self) -> Dict[str, Any]:
         """转换为字典"""
         return asdict(self)
-    
-    def validate(self) -> bool:
-        """验证配置"""
-        try:
-            # 检查模型路径
-            if not os.path.exists(self.model.model_path):
-                logger.error(f"Model path does not exist: {self.model.model_path}")
-                return False
-            
-            # 检查数据目录
-            if not os.path.exists(self.data.data_dir):
-                logger.error(f"Data directory does not exist: {self.data.data_dir}")
-                return False
-            
-            return True
-        except Exception as e:
-            logger.error(f"Configuration validation error: {e}")
-            return False
     
     @classmethod
     def from_dict(cls, config_dict: Dict[str, Any]) -> 'BagelSimilarityConfig':
