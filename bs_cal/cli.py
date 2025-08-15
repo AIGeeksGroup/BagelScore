@@ -52,6 +52,19 @@ Examples:
                        help='BAGEL模型路径 (也可通过环境变量BAGEL_MODEL_PATH设置)')
     parser.add_argument('--gpu-memory', type=str, default='40GiB',
                        help='每个GPU的最大内存使用量 (默认: 40GiB)')
+    parser.add_argument('--dtype', type=str, default='bfloat16',
+                       help='模型数据类型 (默认: bfloat16)')
+    parser.add_argument('--output-dir', type=str,
+                       help='输出目录前缀')
+    parser.add_argument('--config-file', type=str,
+                       help='配置文件路径')
+    parser.add_argument('--log-level', type=str, default='INFO',
+                       choices=['DEBUG', 'INFO', 'WARNING', 'ERROR'],
+                       help='日志级别 (默认: INFO)')
+    parser.add_argument('--log-file', type=str,
+                       help='日志文件路径')
+    parser.add_argument('--dry-run', action='store_true',
+                       help='验证配置但不运行计算')
     
     # 数据配置
     parser.add_argument('--image', type=str,
