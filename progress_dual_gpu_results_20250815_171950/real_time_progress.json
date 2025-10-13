@@ -1,0 +1,11 @@
+{
+  "start_time": "2025-08-15T17:19:50.959980",
+  "total_images": 50,
+  "completed_images": 0,
+  "gpu_0_completed": 0,
+  "gpu_1_completed": 0,
+  "current_status": "Initializing...",
+  "last_update": "2025-08-15T17:19:50.959990",
+  "estimated_completion": null,
+  "results_summary": []
+}

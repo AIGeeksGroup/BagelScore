@@ -1,0 +1,64 @@
+# Large model files and datasets
+models/
+Flickr8K-Expert/
+pacscore/
+flash-attention/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment
+.env
+.venv
+env/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+*~
+
+# Large data files
+*.csv
+*.json
+*.pkl
+*.h5
+*.hdf5
+
+# Model checkpoints
+*.ckpt
+*.pth
+*.bin
+*.safetensors
+
+# Results and outputs
+results/
+outputs/
+checkpoints/
+wandb/
+
+# Backup files
+*.bak
+*.backup

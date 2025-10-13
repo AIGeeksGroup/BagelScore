@@ -1,0 +1,54 @@
+# BAGEL项目统一依赖包
+# 核心依赖
+torch==2.5.1
+torchvision==0.20.1
+transformers==4.49.0
+accelerate>=0.34.0
+safetensors==0.4.5
+huggingface_hub==0.29.1
+
+# 图像处理
+Pillow>=9.0.0
+opencv_python==4.7.0.72
+matplotlib==3.7.0
+
+# 数据处理
+numpy==1.24.4
+pandas>=1.5.0
+scipy==1.10.1
+pyarrow==11.0.0
+
+# 模型相关
+einops==0.8.1
+sentencepiece==0.1.99
+decord==0.6.0
+PyYAML==6.0.2
+
+# 网络请求
+requests>=2.28.0
+
+# 进度条和工具
+tqdm>=4.64.0
+setuptools
+wheel
+ninja
+
+# 量化支持
+bitsandbytes
+
+# 可视化
+wandb
+gradio
+
+# Excel支持
+xlsxwriter
+
+# 编译支持
+triton ; sys_platform != 'win32'
+triton-windows ; sys_platform == 'win32'
+
+# GPT评分功能（可选）
+openai>=1.0.0
+
+# 注意：flash_attn需要单独安装
+# pip install flash_attn==2.5.8 --no-build-isolation
