@@ -5,13 +5,11 @@
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.5.1-red.svg)](https://pytorch.org/)
 
 This is the code repository for the paper:
-> **BAGELSCORE: VISUAL-LANGUAGE EVALUATION MADE EASY**
+> **BagelScore: Visual-Language Evaluation Made Easy**
 >
 > [Shuo Yin](https://www.linkedin.com/in/shuoyin/)\*, [Zeyu Zhang](https://steve-zeyu-zhang.github.io/)\*<sup>†</sup>, Huacan Wang, Qizhen Lan, Ronghao Chen, and Hao Tang<sup>#</sup>
 >
 > \*Equal contribution. <sup>†</sup>Project lead. <sup>#</sup>Corresponding author.
->
-> ***ICLR 2025 Demo***
 >
 > [Paper](placeholder) 
 
