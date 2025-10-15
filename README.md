@@ -1,4 +1,4 @@
-# <img src="https://github.com/AIGeeksGroup/BagelScore/blob/master/bagelscore_logo.png" alt="logo" width="50"/> # BagelScore: Visual-Language Evaluation Made Easy
+# <img src="https://github.com/AIGeeksGroup/BagelScore/blob/master/bagelscore_logo.png" alt="logo" width="50"/> BagelScore: Visual-Language Evaluation Made Easy
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
@@ -13,7 +13,7 @@ This is the code repository for the paper:
 >
 > ***ICLR 2025 Demo***
 >
-> > ### [Paper](placeholder) 
+> [Paper](placeholder) 
 
 ## Citation
 
@@ -217,7 +217,7 @@ We evaluate BagelScore on:
 
 ### Results
 
-#### Pearson Correlation Coefficients Between Evaluation Metrics
+Pearson Correlation Coefficients Between Evaluation Metrics
 
 | Metric            | EditScore | Image RLS | Image Cosine | Text Sim. | Human Score |
 | ----------------- | --------- | --------- | ------------ | --------- | ----------- |
@@ -227,9 +227,9 @@ We evaluate BagelScore on:
 | Text Similarity   | 0.05      | 0.00      | 0.01         | 1.00      | 0.05        |
 | **Human Score**   | **0.14**  | -0.12     | 0.09         | 0.05      | 1.00        |
 
-*Note: The Pearson correlation coefficient reflects the linear relationship between pairs of evaluation metri
+*Note: The Pearson correlation coefficient reflects the linear relationship between pairs of evaluation metrix
 
-### Results
+Comparison of Kendall Tau Correlations Between Human Judgment, EditScore, and GPT-based Scores
 
 | Metric                | Flickr8K-Expert | Flickr8K-CF | Composite |
 | --------------------- | --------------- | ----------- | --------- |
