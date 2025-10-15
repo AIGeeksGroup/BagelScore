@@ -256,22 +256,10 @@ We evaluate BagelScore on:
 | GPT-based Score | 0.192         | 0.189         |
 
 
- <img src="https://github.com/AIGeeksGroup/BagelScore/blob/master/framework.png" alt="framework"/> 
- 
-
-<div style="display: flex; justify-content: space-between;">
-
-  <div style="width: 48%;">
-    <img src="https://github.com/AIGeeksGroup/BagelScore/blob/master/editsocre_consistency.png" alt="editsocre_consistency"/>
-    <p style="text-align: center;">Rank Consistency between Edit Score and Human Score.</p>
-  </div>
-  
-  <div style="width: 48%;">
-    <img src="https://github.com/AIGeeksGroup/BagelScore/blob/master/3d_visualization.png" alt="3d_visualization"/>
-    <p style="text-align: center;">3D Visualization of Edit Score with Image Cosine Similarity, Text Similarity, and Image RLS.</p>
-  </div>
-
-</div>
+<p align="center">
+  <img src="https://github.com/AIGeeksGroup/BagelScore/blob/master/editsocre_consistency.png" width="48%" alt="Rank Consistency between Edit Score and Human Score"/>
+  <img src="https://github.com/AIGeeksGroup/BagelScore/blob/master/3d_visualization.png" width="48%" alt="3D Visualization of Edit Score with Image Cosine Similarity, Text Similarity, and Image RLS"/>
+</p>
 ---
 
 ## 🛠️ Advanced Usage
