@@ -217,19 +217,6 @@ We evaluate BagelScore on:
 
 ### Results
 
-Pearson Correlation Coefficients Between Evaluation Metrics
-
-| Metric            | EditScore | Image RLS | Image Cosine | Text Sim. | Human Score |
-| ----------------- | --------- | --------- | ------------ | --------- | ----------- |
-| **EditScore**     | 1.00      | -0.78     | 0.78         | 0.05      | **0.14**    |
-| Image RLS         | -0.78     | 1.00      | -0.74        | 0.00      | -0.12       |
-| Image Cosine Sim. | 0.78      | -0.74     | 1.00         | 0.01      | 0.09        |
-| Text Similarity   | 0.05      | 0.00      | 0.01         | 1.00      | 0.05        |
-| **Human Score**   | **0.14**  | -0.12     | 0.09         | 0.05      | 1.00        |
-
-*Note: The Pearson correlation coefficient reflects the linear relationship between pairs of evaluation metrix
-
-Comparison of Kendall Tau Correlations Between Human Judgment, EditScore, and GPT-based Scores
 
 | Metric                | Flickr8K-Expert | Flickr8K-CF | Composite |
 | --------------------- | --------------- | ----------- | --------- |
@@ -248,7 +235,19 @@ Comparison of Kendall Tau Correlations Between Human Judgment, EditScore, and GP
 | BERTScore++           | N/A             | N/A         | 44.9      |
 | LEIC\*                | N/A             | 29.5        | N/A       |
 
-*Correlation with human ratings (Kendall's τ)*
+
+ <img src="https://github.com/AIGeeksGroup/BagelScore/blob/master/comparison.png" alt="comparison"/> 
+
+
+| Metric            | EditScore | Image RLS | Image Cosine | Text Sim. | Human Score |
+| ----------------- | --------- | --------- | ------------ | --------- | ----------- |
+| **EditScore**     | 1.00      | -0.78     | 0.78         | 0.05      | **0.14**    |
+| Image RLS         | -0.78     | 1.00      | -0.74        | 0.00      | -0.12       |
+| Image Cosine Sim. | 0.78      | -0.74     | 1.00         | 0.01      | 0.09        |
+| Text Similarity   | 0.05      | 0.00      | 0.01         | 1.00      | 0.05        |
+| **Human Score**   | **0.14**  | -0.12     | 0.09         | 0.05      | 1.00        |
+
+
 
 | Metric          | Kendall Tau-b | Kendall Tau-c |
 | --------------- | ------------- | ------------- |
@@ -256,9 +255,19 @@ Comparison of Kendall Tau Correlations Between Human Judgment, EditScore, and GP
 | **EditScore**   | **0.259**     | **0.253**     |
 | GPT-based Score | 0.192         | 0.189         |
 
-*Note: Kendall Tau correlation measures the ordinal association between two rankings.*
+<div style="display: flex; justify-content: space-between;">
 
+  <div style="width: 48%;">
+    ![Rank Consistency between Edit Score and Human Score](https://github.com/AIGeeksGroup/BagelScore/blob/master/editsocre_consistency.png)
+    <p style="text-align: center;">Rank Consistency between Edit Score and Human Score.</p>
+  </div>
+  
+  <div style="width: 48%;">
+    ![3D Visualization of Edit Score with Image Cosine Similarity, Text Similarity, and Image RLS](https://github.com/AIGeeksGroup/BagelScore/blob/master/3d_visualization.png)
+    <p style="text-align: center;">3D Visualization of Edit Score with Image Cosine Similarity, Text Similarity, and Image RLS.</p>
+  </div>
 
+</div>
 ---
 
 ## 🛠️ Advanced Usage
