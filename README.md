@@ -1,14 +1,26 @@
-# BagelScore: Visual-Language Evaluation Made Easy
+# <img src="https://github.com/AIGeeksGroup/BagelScore/blob/master/bagelscore_logo.png" alt="logo" width="50"/> # BagelScore: Visual-Language Evaluation Made Easy
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.5.1-red.svg)](https://pytorch.org/)
 
-**Official implementation of BagelScore v1.0** - A novel visual-language evaluation metric for assessing image-text alignment and image editing quality.
+This is the code repository for the paper:
+> **BAGELSCORE: VISUAL-LANGUAGE EVALUATION MADE EASY**
+>
+> [Shuo Yin](https://www.linkedin.com/in/shuoyin/)\*, [Zeyu Zhang](https://steve-zeyu-zhang.github.io/)\*<sup>†</sup>, Huacan Wang, Qizhen Lan, Ronghao Chen, and Hao Tang<sup>#</sup>
+>
+> \*Equal contribution. <sup>†</sup>Project lead. <sup>#</sup>Corresponding author.
+>
+> ***ICLR 2025 Demo***
+>
+> > ### [Paper](placeholder) 
 
-📄 **Paper**: BAGELSCORE: VISUAL-LANGUAGE EVALUATION MADE EASY (ICLR 2025)
+## Citation
 
----
+If you use any content of this repo for your work, please cite the following our paper:
+```
+placeholder
+```
 
 ## 🌟 Overview
 
@@ -17,6 +29,8 @@ BagelScore is a reference-free evaluation metric that leverages the BAGEL multim
 - **Image Editing Quality**: Quality of AI-generated image edits
 
 Unlike traditional embedding-based metrics (e.g., CLIPScore), BagelScore uses **inference-based semantic judgment** to capture fine-grained semantic mismatches like negations and substitutions.
+
+ <img src="https://github.com/AIGeeksGroup/BagelScore/blob/master/framework.png" alt="framework"/> 
 
 ### Key Features
 
@@ -187,8 +201,6 @@ BAGELSCORE/
 ├── eval/                            # Evaluation benchmarks
 ├── train/                           # Training scripts
 ├── requirements.txt                 # Python dependencies
-├── EVAL.md                          # Evaluation guide
-├── TRAIN.md                         # Training guide
 └── LICENSE                          # Apache 2.0 License
 ```
 
@@ -201,19 +213,51 @@ BAGELSCORE/
 We evaluate BagelScore on:
 - **Flickr8k-Expert**: Expert-annotated image-caption pairs (1-4 scale)
 - **Flickr8k-CF**: CrowdFlower-annotated pairs (0-1 scale)
-- **Edit-1K**: Image editing quality dataset
+- **[Edit-1K](https://huggingface.co/datasets/yinelon/Edit_1K)**: Image editing quality dataset
 
 ### Results
 
-| Metric | Flickr8k-Expert | Flickr8k-CF | Edit-1K |
-|--------|----------------|-------------|---------|
-| **BagelScore** | **0.XXX** | **0.XXX** | **0.XXX** |
-| CLIPScore | 0.XXX | 0.XXX | 0.XXX |
-| PAC-S | 0.XXX | 0.XXX | 0.XXX |
+#### Pearson Correlation Coefficients Between Evaluation Metrics
+
+| Metric            | EditScore | Image RLS | Image Cosine | Text Sim. | Human Score |
+| ----------------- | --------- | --------- | ------------ | --------- | ----------- |
+| **EditScore**     | 1.00      | -0.78     | 0.78         | 0.05      | **0.14**    |
+| Image RLS         | -0.78     | 1.00      | -0.74        | 0.00      | -0.12       |
+| Image Cosine Sim. | 0.78      | -0.74     | 1.00         | 0.01      | 0.09        |
+| Text Similarity   | 0.05      | 0.00      | 0.01         | 1.00      | 0.05        |
+| **Human Score**   | **0.14**  | -0.12     | 0.09         | 0.05      | 1.00        |
+
+*Note: The Pearson correlation coefficient reflects the linear relationship between pairs of evaluation metri
+
+### Results
+
+| Metric                | Flickr8K-Expert | Flickr8K-CF | Composite |
+| --------------------- | --------------- | ----------- | --------- |
+| **BAGELScore**        | **53.2**        | **38.0**    | **55.9**  |
+| CLIPScore             | 51.2            | 34.4        | 53.8      |
+| RefCLIPScore          | 53.0            | 36.4        | 55.4      |
+| ViLBERTScore-F        | 50.1            | N/A         | 52.4      |
+| SPICE                 | 44.9            | 24.4        | 40.3      |
+| CIDEr                 | 43.9            | 24.6        | 37.7      |
+| METEOR                | 41.8            | 22.2        | 38.9      |
+| ROUGE-L               | 32.3            | 19.9        | 32.4      |
+| BLEU-1                | 32.3            | N/A         | 31.3      |
+| BLEU-4                | 30.8            | 16.9        | 30.6      |
+| BERTScore (RoBERTa-F) | 39.2            | 22.8        | 30.1      |
+| TIGEr                 | N/A             | N/A         | 45.4      |
+| BERTScore++           | N/A             | N/A         | 44.9      |
+| LEIC\*                | N/A             | 29.5        | N/A       |
 
 *Correlation with human ratings (Kendall's τ)*
 
-For detailed evaluation results, see [EVAL.md](EVAL.md).
+| Metric          | Kendall Tau-b | Kendall Tau-c |
+| --------------- | ------------- | ------------- |
+| **Human Score** | 1.000         | 1.000         |
+| **EditScore**   | **0.259**     | **0.253**     |
+| GPT-based Score | 0.192         | 0.189         |
+
+*Note: Kendall Tau correlation measures the ordinal association between two rankings.*
+
 
 ---
 
@@ -255,40 +299,7 @@ For limited GPU memory:
 
 ---
 
-## 📖 Citation
 
-If you find BagelScore useful in your research, please cite:
-
-```bibtex
-@inproceedings{bagelscore2025,
-  title={BagelScore: Visual-Language Evaluation Made Easy},
-  author={Your Name and Others},
-  booktitle={International Conference on Learning Representations (ICLR)},
-  year={2025}
-}
-```
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](CONTRIBUTING.md) for details.
-
-### Development Setup
-
-```bash
-# Install development dependencies
-pip install -r requirements.txt
-pip install pytest black flake8
-
-# Run tests
-pytest tests/
-
-# Format code
-black .
-```
-
----
 
 ## 📝 License
 
@@ -313,42 +324,15 @@ This repository contains the essential components for BagelScore evaluation:
 - **Evaluation tools** in `eval/`
 - **Training scripts** in `train/`
 
-### Backup Files
-**Note**: This is a simplified organization. Many experimental implementations, detailed calculation processes, and development iterations are preserved in the `delete/` folder for reference:
-
-```bash
-# View backup files
-ls delete/
-
-# Restore specific files if needed
-cp delete/filename.py ./
-```
-
-The `delete/` folder contains:
-- **147 backup files** including experimental versions
-- **Alternative implementations** of scoring algorithms
-- **Detailed analysis scripts** and calculation processes
-- **Development iterations** and testing files
-- **Flickr8k evaluation scripts** in various versions
-
-If you cannot find specific functionality in the main codebase, please check the `delete/` folder as it contains comprehensive backup of all development work.
-
 ---
 
 ## 📧 Contact
 
 For questions and feedback:
-- **Issues**: [GitHub Issues](https://github.com/YOUR_ORG/BAGELSCORE/issues)
-- **Email**: your.email@example.com
-- **Paper**: [arXiv:XXXX.XXXXX](https://arxiv.org/abs/XXXX.XXXXX)
+- **Issues**: [GitHub Issues](https://github.com/AIGeeksGroup/BAGELSCORE/issues)
+- **Email**: yins25@tsinghua.mails.edu.cn
+- **Paper**: [arXiv:XXXX.XXXXX](palceholder)
 
----
-
-## 🔗 Related Projects
-
-- [BAGEL](https://github.com/ByteDance/BAGEL) - The base multimodal model
-- [CLIPScore](https://github.com/jmhessel/clipscore) - CLIP-based evaluation
-- [PAC-S](https://github.com/aimagelab/pacscore) - Perceptual similarity metric
 
 ---
 
