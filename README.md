@@ -7,7 +7,7 @@
 This is the code repository for the paper:
 > **BagelScore: Visual-Language Evaluation Made Easy**
 >
-> [Shuo Yin](https://www.linkedin.com/in/shuoyin/)\*, [Zeyu Zhang](https://steve-zeyu-zhang.github.io/)\*<sup>†</sup>, Huacan Wang, Qizhen Lan, Ronghao Chen, and Hao Tang<sup>#</sup>
+> [Shuo Yin](https://www.linkedin.com/in/shuoyin/)\*, [Biao Wu](https://scholar.google.com/citations?user=Y3SBBWMAAAAJ&hl=en)\*, [Zeyu Zhang](https://steve-zeyu-zhang.github.io/)<sup>†</sup>, Huacan Wang, Qizhen Lan, Ronghao Chen, Yang Zhao, and Hao Tang<sup>#</sup>
 >
 > \*Equal contribution. <sup>†</sup>Project lead. <sup>#</sup>Corresponding author.
 >
